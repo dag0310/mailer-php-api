@@ -12,28 +12,29 @@ Send emails using an HTTP PHP API using PHPMailer.
 
 ### PHP
 ```php
-$request = new HttpRequest();
-$request->setUrl('https://example.com/mailer/');
-$request->setMethod(HTTP_METH_POST);
+$headers = [
+    'Content-type: application/x-www-form-urlencoded',
+    "Authorization: Bearer API_TOKEN_GOES_HERE",
+];
 
-$request->setHeaders([
-  'Content-Type' => 'application/x-www-form-urlencoded',
-  'Authorization' => 'Bearer API_TOKEN_GOES_HERE'
+$data = http_build_query([
+    'to_email': 'john.doe@example.com',
+    'subject': 'Test email',
+    'message_html': 'HTML message body',
 ]);
 
-$request->setContentType('application/x-www-form-urlencoded');
-$request->setPostFields([
-  'to_email' => 'john.doe@example.com',
-  'subject' => 'Test email',
-  'message_html' => 'HTML message body',
+$context = stream_context_create([
+  'http' => [
+      'method' => 'POST',
+      'header' => implode("\r\n", $headers),
+      'content' => $data,
+  ],
 ]);
 
-try {
-  $response = $request->send();
+$response = file_get_contents('https://example.com/mailer/', FALSE, $context);
 
-  echo $response->getBody();
-} catch (HttpException $ex) {
-  echo $ex;
+if ($response === FALSE) {
+  die('Error: Unable to send the request.');
 }
 ```
 
