@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
+Order allow,deny
+Deny from all
+<FilesMatch ^(index\.php)?$>
+  Allow from all
+</FilesMatch>
