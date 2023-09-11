@@ -81,8 +81,8 @@ foreach ($mail_config_keys as $key) {
 
 if (sizeof($missing_field_names) > 0) {
   $missing_field_names_str = implode(', ', $missing_field_names);
-  echo "Missing field names: '{$missing_field_names_str}'";
   http_response_code(400);
+  echo "Missing field names: '{$missing_field_names_str}'";
   exit;
 }
 
