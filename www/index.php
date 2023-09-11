@@ -26,7 +26,9 @@ function send_email($config) {
   if (isset($config['message_plain'])) {
     $mail->AltBody = $config['message_plain'];
   }
-  // $mail->addAttachment('images/phpmailer_mini.png'); //Attach an image file
+  if (isset($_FILES['attachment'])) {
+    $mail->addAttachment($_FILES['attachment']['tmp_name'], $_FILES['attachment']['name'], 'base64', $_FILES['attachment']['type']);
+  }
 
   $success = $mail->send();
   if (!$success) {
