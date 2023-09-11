@@ -63,13 +63,11 @@ function get_bearer_token() {
 $config_filename = 'config.ini';
 $ini_config = parse_ini_file($config_filename, FALSE);
 if ($ini_config === FALSE) {
-  echo "Config file '{$config_filename}' missing.";
   http_response_code(500);
   exit;
 }
 
 if (!isset($ini_config['api_token'])) {
-  echo "Config entry 'api_token' missing.";
   http_response_code(500);
   exit;
 }
