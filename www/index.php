@@ -10,6 +10,7 @@ require 'PHPMailer/src/SMTP.php';
 require_once('auth.php');
 
 function send_email($config) {
+  // echo print_r($config, true);
   $mail = new PHPMailer;
   $mail->isSMTP();
   $mail->SMTPDebug = 0; // 0 = off (for production use) - 1 = client messages - 2 = client and server messages
